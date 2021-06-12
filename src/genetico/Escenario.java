@@ -1,6 +1,13 @@
+/*Proyeto Tanque
+ * Proyecto para Inteligencia Artificial
+ * Versión 1.1
+ * Ultima modificación: 12/06/21
+ * Esperando a ser más optimizado*/
+
+
 package genetico;
 
-
+// Importan Librerias
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -8,13 +15,14 @@ import java.util.Random;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-/// variables cambientes  
+/// Variables Cambiantes 
 
 public class Escenario extends PApplet{
 	public static void main(String[] args) {
 		PApplet.main("genetico.Escenario");
 	}
-	//processing
+	
+	//Processing
 	float i = 0;
 	TiroParabolico tp ; 
 	int objetivox;
@@ -24,7 +32,7 @@ public class Escenario extends PApplet{
 	int in = 0;
 	
 	
-	//Evolucion
+	// Evolucion
 	int modelo = 36;
 	int material_g = 10;
 	int num_pob = 10;
@@ -50,6 +58,7 @@ public class Escenario extends PApplet{
 		vivos = new ArrayList<ParOrdenado>();
 		
 		System.out.println("Poblacion Inicial:");
+		
 		//Se muestra la poblacion inicial
 		mostrarArrCuad(poblacion);
 		int x = sumX(poblacion[in]);
