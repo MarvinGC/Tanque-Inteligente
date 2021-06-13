@@ -27,20 +27,19 @@ public class Escenario extends PApplet{
 	}
 	
 	//Processing
-	// Delaración de variables para que Processing lo entienda
 	float i = 0;
-	// Objeto de la clase tiroParabólico que calcula el tiro parabólico
-	TiroParabolico tp ; 
+	TiroParabolico tp ; // Objeto de la clase tiroParabólico que calcula el tiro parabólico 
+	
 	// Estas variables indican la posición del objetivo en el espacio bidimencional
 	int objetivox;
 	int objetivoy;
 	int[][] poblacion;
-	// Hace un arreglo de Pares Ordenados 
-	ArrayList<Individuo> vivos;
+								
+	ArrayList<Individuo> vivos;// Hace un arreglo de Individuos
 	int in = 0;
 	
 	
-	// Evolucion del Algoritmo Genético.
+	// Parametros del Algoritmo Genético.
 	
 	// Se define el fitness (modelo) cada individuo de la población.
 	int modelo = 36; 
@@ -66,10 +65,10 @@ public class Escenario extends PApplet{
 	
 	
 	public void setup() {
-		PImage titlebaricon = loadImage("icon.png");
-		surface.setIcon(titlebaricon);
+		PImage titleBarIcon = loadImage("icon.png");
+		surface.setIcon(titleBarIcon);
 		surface.setResizable(true);
-		//surface.setTitle("SimpleAI - Intelligent Points");
+		//surface.setTitle("Tanque-Genetico");
 		background(255);
 		
 		// Aqui se incicializa la población de vivos
@@ -80,8 +79,8 @@ public class Escenario extends PApplet{
 		
 		//Se muestra la poblacion inicial
 		mostrarArrCuad(poblacion);
-		int x = sumX(poblacion[in]);
-		int ang = sumAng(poblacion[in]);
+		int x = sumPMitad(poblacion[in]);
+		int ang = sumSMitad(poblacion[in]);
 		in++;
 		
 		tp = new TiroParabolico(x,ang,0,0);
@@ -112,14 +111,13 @@ public class Escenario extends PApplet{
 	// Esta función realiza los calculos para que se pueda realizar el Tiro Parabólico
 	public void disparo(int posx, int posy) {
 		
-		// Mientras el tanque esté encima de la posción -500,
+		// Mientras la pocision incial de la bala esté encima de la posción -500,
 		// El tanque hará su disparo
 		if(tp.pixelesY() - posy > -500) {
+			//System.out.println("x --> " + tp.posicionX() + " y --> " + tp.posicionY());
 			
 			// Rellena de color la bala
 			fill(247, 4, 4);
-			//System.out.println("x --> " + tp.posicionX() + " y --> " + tp.posicionY());
-			
 			// Dibuja la trayectoria de la bala conforme al tiempo
 			ellipse((float) tp.pixelesX() + posx, 
 					(float) (tp.pixelesY() - posy) * -1,
@@ -127,8 +125,7 @@ public class Escenario extends PApplet{
 			tp.t += 0.01;
 		}
 		else {
-			// Este print avisará por consola si la bala atinó al objetivo
-			System.out.println("\n"+(int) (tp.pixelesX() + posx));
+			// System.out.println("\n"+(int) (tp.pixelesX() + posx));
 			// Y esta función evalua qué tan cerca estuvo del blanco y le dá una calificación
 			evaluar((int) (tp.pixelesX() + posx));
 			
@@ -140,8 +137,8 @@ public class Escenario extends PApplet{
 				vivos = new ArrayList<Individuo>();
 				in = 0;
 			}
-			int x = sumX(poblacion[in]);
-			int ang = sumAng(poblacion[in]);
+			int x = sumPMitad(poblacion[in]);
+			int ang = sumSMitad(poblacion[in]);
 			
 			// En caso de que tp no sea visible en los límites de la pantalla,
 			// Creará una nueva población y un nuevo tiro.
@@ -154,7 +151,6 @@ public class Escenario extends PApplet{
     	int diferencia = Math.abs(objetivox - puntaje);
     	if(diferencia == 0)
     		mejor = true;
-
     	return (float) (1.0 / (1.0 + diferencia)); 
     }
 	
@@ -167,9 +163,14 @@ public class Escenario extends PApplet{
 
 	// Crea el adn del individuo, para la población inicial
 	public int[]  crearAdn(int min, int max){
+		/*
+		 	Este se compone de 10 numeros de los cuales,
+		 	la suma de los primeros 5 representan la velocidad,
+		 	mientras que la suma de los ultimos 5 representan el angulo de inclinación
+		 */
         int[] ADN = new int[material_g];
         for (int i = 0; i < material_g; i++) {
-        	// Este lo crea del 1 al 9 aleatoriamente.
+        	// Se generea un número aleatorio del 1 al 9
             ADN[i] = new Random().nextInt(max) + min;
         }
         return ADN;
@@ -185,18 +186,21 @@ public class Escenario extends PApplet{
         return poblacion;
     }
     
-    
-	public int sumX(int[] individuo) {
+    //La suma de la primera mitad del material genetico de un individuo
+    //Esta reprecenta la velocidad del disparo
+	public int sumPMitad(int[] mat_geneticoInd) {
 		int x = 0;
-		for (int i = 0; i < individuo.length/2; i++) {
-			x += individuo[i];
+		for (int i = 0; i < mat_geneticoInd.length/2; i++) {
+			x += mat_geneticoInd[i];
 		}
 		return x;
 	}
-	public int sumAng(int[] individuo) {
+	//La suma de la segundo mitad del material genetico de un individuo
+	//Esta representa el angulo de inclinación del disparo
+	public int sumSMitad(int[] mat_geneticoInd) {
 		int x = 0;
-		for (int i = individuo.length/2; i < individuo.length; i++) {
-			x+=individuo[i];
+		for (int i = mat_geneticoInd.length/2; i < mat_geneticoInd.length; i++) {
+			x+=mat_geneticoInd[i];
 		}
 		return x;
 	}
