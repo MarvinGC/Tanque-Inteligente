@@ -36,7 +36,7 @@ public class Escenario extends PApplet{
 	int objetivoy;
 	int[][] poblacion;
 	// Hace un arreglo de Pares Ordenados 
-	ArrayList<ParOrdenado> vivos;
+	ArrayList<Individuo> vivos;
 	int in = 0;
 	
 	
@@ -52,6 +52,7 @@ public class Escenario extends PApplet{
 	int presion = (int) (num_pob * 0.2);
 	// Esta variable evita que mute demasiado un miembro de la población
 	float mutacion_v = (float) 0.3;
+	// Este variable para saber si un individuo alcanzo el objetivo
 	boolean mejor = false;
 
 	
@@ -69,7 +70,7 @@ public class Escenario extends PApplet{
 		
 		// Aqui se incicializa la población de vivos
 		poblacion = crearPoblacion(); 
-		vivos = new ArrayList<ParOrdenado>();
+		vivos = new ArrayList<Individuo>();
 		
 		System.out.println("Poblacion Inicial:");
 		
@@ -90,7 +91,7 @@ public class Escenario extends PApplet{
 		
 	}
 	public void escenografia() {
-		
+		//Piso
 		line(0,500,width,500);
 		
 		//Tanque
@@ -130,7 +131,7 @@ public class Escenario extends PApplet{
 			if(in == num_pob) {
 				poblacion = seleccionNatural();
 				mostrarArrCuad(poblacion);
-				vivos = new ArrayList<ParOrdenado>();
+				vivos = new ArrayList<Individuo>();
 				in = 0;
 			}
 			int x = sumX(poblacion[in]);
@@ -145,24 +146,24 @@ public class Escenario extends PApplet{
 	// Esta función evaluará qué tan cerca estuvo el tiro de darle al blanco 
 	public void evaluar(int puntaje) {
 		int a = (int) (aptitud(poblacion[in],puntaje) * 1000000)+1;
-		vivos.add(new ParOrdenado(a,poblacion[in]));
+		vivos.add(new Individuo(a,poblacion[in]));
 		in++;
 	}
 
 	
-	public int[]  individuo(int min, int max){
-        int[] arreglo = new int[material_g];
+	public int[]  crearAdn(int min, int max){
+        int[] ADN = new int[material_g];
         for (int i = 0; i < material_g; i++) {
-            arreglo[i] = new Random().nextInt(max) + min;
+            ADN[i] = new Random().nextInt(max) + min;
         }
-        return arreglo;
+        return ADN;
     }
 
     public int[][] crearPoblacion(){
     	int[][] poblacion = new int[num_pob][material_g];
     	
     	for (int i = 0; i < num_pob; i++) {
-			poblacion[i] =  individuo(1,9);
+			poblacion[i] =  crearAdn(1,9);
 		}
         return poblacion;
     }
@@ -193,10 +194,10 @@ public class Escenario extends PApplet{
 	public int[][] seleccionNatural(){
 		
 	    //Ordena los pares ordenados y se queda solo con el array de valores
-		Collections.sort(vivos,new ParOrdenado().new OrdxNum());
+		Collections.sort(vivos,new Individuo().new OrdxNum());
 		
 		/*El mejor*/
-		ParOrdenado mejor = new ParOrdenado(
+		Individuo mejor = new Individuo(
 										vivos.get(vivos.size()-1).num,
 										vivos.get(vivos.size()-1).ADN);
 		System.out.println("\nMejor: "+mejor.num);
@@ -211,7 +212,7 @@ public class Escenario extends PApplet{
 		
 		//Sorteo
 		// Por cada espécimen en la población (arreglo)
-		for (ParOrdenado especimen : vivos) {
+		for (Individuo especimen : vivos) {
 			
 			// Si saca un puntaje alto, va a poner más individuos en la rifa
 			int puntaje = especimen.getNum();
@@ -283,7 +284,7 @@ public class Escenario extends PApplet{
 	// Y añade el ADN al nuevo arreglo
 	
 	
-	public int[][] listaAArr(ArrayList<ParOrdenado> lista) {
+	public int[][] listaAArr(ArrayList<Individuo> lista) {
 		int[][] arr = new int[lista.size()][0];
 		for (int i = 0; i < lista.size(); i++) {
 			arr[i] = lista.get(i).ADN;
