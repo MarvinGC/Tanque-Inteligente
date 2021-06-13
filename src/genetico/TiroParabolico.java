@@ -1,3 +1,6 @@
+// Clase TiroParabólico
+// Ultima Revisión  12/06/21
+
 package genetico;
 
 public class TiroParabolico {
