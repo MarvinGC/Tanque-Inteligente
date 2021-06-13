@@ -31,7 +31,7 @@ public class Escenario extends PApplet{
 	float i = 0;
 	// Objeto de la clase tiroParabólico que calcula el tiro parabólico
 	TiroParabolico tp ; 
-	// Estas variables indican la posición del obajetivo en el espacio bidimencional
+	// Estas variables indican la posición del objetivo en el espacio bidimencional
 	int objetivox;
 	int objetivoy;
 	int[][] poblacion;
@@ -56,11 +56,15 @@ public class Escenario extends PApplet{
 	boolean mejor = false;
 
 	
+	// Define las dimensiones de la ventana del ejecutable.
 	public void settings() {
 		size(1500, 800);
+		// Posiciones del tanque y la diana
 		objetivox = (int) (width*0.8);
 		objetivoy = 490;
 	}
+	
+	
 	public void setup() {
 		PImage titlebaricon = loadImage("icon.png");
 		surface.setIcon(titlebaricon);
@@ -82,6 +86,8 @@ public class Escenario extends PApplet{
 		
 		tp = new TiroParabolico(x,ang,0,0);
 	}
+	
+	// 
 	public void draw() {
 		
 		background(255);
@@ -143,6 +149,15 @@ public class Escenario extends PApplet{
 		}		
 	}
 	
+    // Función que da el puntaje del tiro.
+    public float aptitud(int[] individuo, int puntaje) {
+    	int diferencia = Math.abs(objetivox - puntaje);
+    	if(diferencia == 0)
+    		mejor = true;
+
+    	return (float) (1.0 / (1.0 + diferencia)); 
+    }
+	
 	// Esta función evaluará qué tan cerca estuvo el tiro de darle al blanco 
 	public void evaluar(int puntaje) {
 		int a = (int) (aptitud(poblacion[in],puntaje) * 1000000)+1;
@@ -150,15 +165,17 @@ public class Escenario extends PApplet{
 		in++;
 	}
 
-	
+	// Crea el adn del individuo, para la población inicial
 	public int[]  crearAdn(int min, int max){
         int[] ADN = new int[material_g];
         for (int i = 0; i < material_g; i++) {
+        	// Este lo crea del 1 al 9 aleatoriamente.
             ADN[i] = new Random().nextInt(max) + min;
         }
         return ADN;
     }
-
+	
+	// Función que crea la Población Inicial
     public int[][] crearPoblacion(){
     	int[][] poblacion = new int[num_pob][material_g];
     	
@@ -168,13 +185,7 @@ public class Escenario extends PApplet{
         return poblacion;
     }
     
-    public float aptitud(int[] individuo, int puntaje) {
-    	int diferencia = Math.abs(objetivox - puntaje);
-    	if(diferencia == 0)
-    		mejor = true;
-
-    	return (float) (1.0 / (1.0 + diferencia)); 
-    }
+    
 	public int sumX(int[] individuo) {
 		int x = 0;
 		for (int i = 0; i < individuo.length/2; i++) {
@@ -198,9 +209,9 @@ public class Escenario extends PApplet{
 		
 		/*El mejor*/
 		Individuo mejor = new Individuo(
-										vivos.get(vivos.size()-1).num,
+										vivos.get(vivos.size()-1).aptitud,
 										vivos.get(vivos.size()-1).ADN);
-		System.out.println("\nMejor: "+mejor.num);
+		System.out.println("\nMejor: "+mejor.aptitud);
 		mostrarArr(mejor.ADN);
 		System.out.println();
 		
@@ -215,7 +226,7 @@ public class Escenario extends PApplet{
 		for (Individuo especimen : vivos) {
 			
 			// Si saca un puntaje alto, va a poner más individuos en la rifa
-			int puntaje = especimen.getNum();
+			int puntaje = especimen.getAptitud();
 			
 			for(int i=0; i<puntaje; i++) {
 				rifa.add(vivos.indexOf(especimen));

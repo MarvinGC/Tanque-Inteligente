@@ -1,5 +1,5 @@
 /*Clase ParOrdenado
- * Función: 
+ * Ultima Revisión: 12/06/21
  * */
 
 package genetico;
@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 public class Individuo{
 	
-	int num;
+	int aptitud;
 	int[] ADN;
 	
 	// Constructor ParOrdenado
@@ -18,20 +18,21 @@ public class Individuo{
 	}
 	
 	// Constructo Parordenado, recibiendo los valores
-	Individuo(int num, int[] arr){
-		this.num = num;
-		this.ADN = arr;
+	Individuo(int num, int[] adn){
+		this.aptitud = num;
+		this.ADN = adn;
 	}
-	public int getNum() {
-		return num;
+	
+	public int getAptitud() {
+		return aptitud;
 	}
-	public void setNum(int num) {
-		this.num = num;
+	public void setAptitud(int num) {
+		this.aptitud = num;
 	}
-	public int[] getArr() {
+	public int[] getAdn() {
 		return ADN;
 	}
-	public void setArr(int[] arr) {
+	public void setAdn(int[] arr) {
 		this.ADN = arr;
 	}
 	
@@ -39,16 +40,16 @@ public class Individuo{
 	public class OrdxNum implements Comparator<Individuo> {
 		
 		public int compare(Individuo a,  Individuo b) { 
-	        return a.getNum() - b.getNum();
-	    } 
+	        return a.getAptitud() - b.getAptitud();
+		}
 	}
 	
 	// Cumple la misma función del anterior comparador, pero a la inversa
 	public class OrdxNumReverso implements Comparator<Individuo> {
 		
 		public int compare(Individuo a,  Individuo b) { 
-	        return b.getNum() - a.getNum();
-	    } 
+	        return b.getAptitud() - a.getAptitud();
+		}
 	}
 	
 }
