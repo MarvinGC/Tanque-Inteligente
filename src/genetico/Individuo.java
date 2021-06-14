@@ -36,16 +36,16 @@ public class Individuo{
 		this.ADN = arr;
 	}
 	
-	// Comparador entre un numero y la ordenada
-	public class OrdxNum implements Comparator<Individuo> {
+	// Comparador de la aptitud de los individuos entre mas grande mejor
+	public class CompMayorMejor implements Comparator<Individuo> {
 		
 		public int compare(Individuo a,  Individuo b) { 
 	        return a.getAptitud() - b.getAptitud();
 		}
 	}
 	
-	// Cumple la misma función del anterior comparador, pero a la inversa
-	public class OrdxNumReverso implements Comparator<Individuo> {
+	// Comparador de la aptitud de los individuos entre menos mejor
+	public class CompMenosMejor implements Comparator<Individuo> {
 		
 		public int compare(Individuo a,  Individuo b) { 
 	        return b.getAptitud() - a.getAptitud();

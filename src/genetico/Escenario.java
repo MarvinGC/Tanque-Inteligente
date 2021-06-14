@@ -78,7 +78,7 @@ public class Escenario extends PApplet{
 		System.out.println("Poblacion Inicial:");
 		
 		//Se muestra la poblacion inicial
-		mostrarArrCuad(poblacion);
+		mostrarArregloB(poblacion);
 		int x = sumPMitad(poblacion[in]);
 		int ang = sumSMitad(poblacion[in]);
 		in++;
@@ -133,7 +133,7 @@ public class Escenario extends PApplet{
 			// Realiza el proceso de la Selección Natural y seleccionar los nuevos individuos
 			if(in == num_pob) {
 				poblacion = seleccionNatural();
-				mostrarArrCuad(poblacion);
+				mostrarArregloB(poblacion);
 				vivos = new ArrayList<Individuo>();
 				in = 0;
 			}
@@ -208,15 +208,15 @@ public class Escenario extends PApplet{
 	// Función selecciónNatural. Aquí se desarolla el Algoritmo Genético
 	public int[][] seleccionNatural(){
 		
-	    //Ordena los pares ordenados y se queda solo con el array de valores
-		Collections.sort(vivos,new Individuo().new OrdxNum());
+	    //Ordena los indiviuos mediante la aptitud de menor a mayor
+		Collections.sort(vivos,new Individuo().new CompMayorMejor());
 		
-		/*El mejor*/
-		Individuo mejor = new Individuo(
-										vivos.get(vivos.size()-1).aptitud,
+		//Al realizar el ordenamiento el mejor seria el ultimo elemento
+		Individuo mejor = 
+				new Individuo(vivos.get(vivos.size()-1).aptitud,
 										vivos.get(vivos.size()-1).ADN);
 		System.out.println("\nMejor: "+mejor.aptitud);
-		mostrarArr(mejor.ADN);
+		mostrarArreglo(mejor.ADN);
 		System.out.println();
 		
 
@@ -294,12 +294,9 @@ public class Escenario extends PApplet{
 		return arr;
 	}
 	
-	// Convierte una lista de parOrdenado en un arreglo bidimensional.
-	// Recorre todos los pares ordenados de la lista
-	// Y añade el ADN al nuevo arreglo
-	
-	
-	public int[][] listaAArr(ArrayList<Individuo> lista) {
+	// Convierte una lista de Individuos en un arreglo bidimensional.
+	// Recorre todos los individuos y solo añade el ADN al nuevo arreglo
+	public int[][] listaAArregloB(ArrayList<Individuo> lista) {
 		int[][] arr = new int[lista.size()][0];
 		for (int i = 0; i < lista.size(); i++) {
 			arr[i] = lista.get(i).ADN;
@@ -307,10 +304,10 @@ public class Escenario extends PApplet{
 		return arr;
 	}
 	
-	// mostrarArr muestra el arreglo en la consola
+	// Muestra el arreglo en la consola
 	// esto ayuda para las pruebas con el debug.
 	
-	public void mostrarArr(int[] arr) {
+	public void mostrarArreglo(int[] arr) {
 		System.out.print("{");
 		for (int j = 0; j < arr.length; j++) {
 			System.out.print(arr[j]);
@@ -320,9 +317,9 @@ public class Escenario extends PApplet{
 		System.out.print("}");
 	}
 	
-	// muestra el arreglo cuadrado
-	// Esta función muestra toda la población
-	public void mostrarArrCuad(int[][] arr) {
+	// Muestra el arreglo bidimencional el cual
+	// representa toda la población
+	public void mostrarArregloB(int[][] arr) {
 		System.out.print("{");
 		for (int i = 0; i < arr.length; i++) {
 			System.out.print("{");
