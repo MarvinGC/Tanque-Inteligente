@@ -13,7 +13,7 @@ public class Objetos extends PApplet{
 	}
 	
 	public void settings() {
-		size(1500, 800);
+		size(1150, 550);
 		objetivox = (int) (width*0.8);
 		objetivoy = 490;
 	}
@@ -30,14 +30,14 @@ public class Objetos extends PApplet{
 	}
 	public void escenografia() {
 		
-		line(0,500,width,500);
+		line(0,300,width,300);
 		
 		//Tanque
 		fill(66, 134, 244);
-		ellipse(10,450, 100, 100);
+		ellipse(10,300, 100, 100);
 		
 		fill(66, 134, 244);
-		rect(10,450,100,200);
+		rect(10,300,100,200);
 		
 	}
 	
