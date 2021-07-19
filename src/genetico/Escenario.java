@@ -27,6 +27,7 @@ public class Escenario extends PApplet{
 	}
 	PImage tanque;
 	PImage diana;
+	PImage fondo;
 	
 	//Processing
 	float i = 0;
@@ -63,6 +64,8 @@ public class Escenario extends PApplet{
 		// Posiciones del tanque y la diana
 		objetivox = (int) (width*0.8);
 		objetivoy = 490;
+		fondo = loadImage("Fondo.jpeg");
+		fondo.resize(width,height);
 	}
 	
 	
@@ -90,25 +93,23 @@ public class Escenario extends PApplet{
 	
 	// 
 	public void draw() {
-		
-		background(255);
+		background(fondo);
 		disparo(20,480);
-		
 		escenografia();
-		
 	}
 	public void escenografia() {
 		//Piso
 		line(0,500,width,500);
 		
 		//Tanque
-		tanque = loadImage("icon.png");
+		tanque = loadImage("Tanque.jpeg");
 		tanque.resize(50, 50);
 		image(tanque, 20, 500-tanque.width);
 		
 		//Objetivo
-		fill(66, 134, 244);
-		ellipse(objetivox,objetivoy, 20, 20);
+		diana = loadImage("Diana.jpeg");
+		diana.resize(50, 50);
+		image(diana, objetivox, objetivoy-diana.width);
 	}
 	
 	// Esta función realiza los calculos para que se pueda realizar el Tiro Parabólico
