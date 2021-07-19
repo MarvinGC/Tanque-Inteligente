@@ -25,6 +25,8 @@ public class Escenario extends PApplet{
 		// Título de la ventana
 		PApplet.main("genetico.Escenario");
 	}
+	PImage tanque;
+	PImage diana;
 	
 	//Processing
 	float i = 0;
@@ -100,8 +102,9 @@ public class Escenario extends PApplet{
 		line(0,500,width,500);
 		
 		//Tanque
-		fill(66, 134, 244);
-		ellipse(10,490, 20, 20);
+		tanque = loadImage("icon.png");
+		tanque.resize(50, 50);
+		image(tanque, 20, 500-tanque.width);
 		
 		//Objetivo
 		fill(66, 134, 244);
